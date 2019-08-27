@@ -41,8 +41,9 @@ public final class QueryUtils {
     }
 
     private static ArrayList<Book> extractFromJson(String jsonFile) {
+        ArrayList<Book> books = new ArrayList<>();
+        Uri imageUri;
         try {
-            ArrayList<Book> books = new ArrayList<>();
             JSONObject rootObject = new JSONObject(jsonFile);
             JSONArray items = rootObject.optJSONArray("items");
             for (int i = 0; i < items.length(); i++) {
@@ -60,17 +61,27 @@ public final class QueryUtils {
                 String Author = listOfAuthors.getString(0);
 
             //Get the User Image URI
-            JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
-            String imageUriString = imageLinks.getString("thumbnail");
-            Uri imageUri = Uri.parse(imageUriString);
+
+                try {
+                    JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                    String imageUriString = imageLinks.getString("thumbnail");
+                    imageUri = Uri.parse(imageUriString);
+                }catch(JSONException e){
+                    Log.i("ImageIssue","Default Image Added");
+                    imageUri = Uri.parse("https://images.app.goo.gl/LecnMWKP67Z72AaUA");
+                }
+
             books.add(i, new Book(bookTitle, Author,imageUri));
+
         }
+            Log.i("Evans","Books added!!");
             return books;
+
         } catch (JSONException e) {
             Log.e("QueryUtils","Problem parsing the Book JSON file");
         }
 
-        return null;
+        return books;
     }
 
     private static String performNetworkConnection(URL url) throws IOException {

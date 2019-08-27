@@ -17,26 +17,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookResult extends AppCompatActivity{
-    private static final String BOOK_URL = "https://www.googleapis.com/books/v1/volumes?q=android";
-
+    private String bookUrlPrefix = "https://www.googleapis.com/books/v1/volumes";
+    private Button researchBtn;
+    private String searchQuery;
+    TextView headerSubView;
+    EditText searchField;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_result);
-        TextView headerSubView = findViewById(R.id.headerSubVie);
-        EditText searchField = findViewById(R.id.searchFiel);
+        headerSubView = findViewById(R.id.headerSubVie);
+        searchField = findViewById(R.id.searchFiel);
         Intent intent = getIntent();
-        String searchQuery = intent.getStringExtra("query");
+        searchQuery = intent.getStringExtra("query");
         headerSubView.setText(searchQuery);
         searchField.setText(searchQuery);
-        //String searchUrl = "?q="+searchQuery;
-        /**
-        * @Info: URL is parsed here
-         * */
-        //BOOK_URL+=searchUrl;
+        researchBtn = findViewById(R.id.btn_searchBoo);
+        researchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRestart();
+            }
+        });
+        performTask();
+        }
+
+    private void performTask() {
+        String splittedUrl = performQuerySplit(searchQuery);
+        String searchUrl = bookUrlPrefix+"?q="+splittedUrl;
+        Log.i("Evans:",searchUrl);
         BookAsyncTask bookAsyncTask = new BookAsyncTask();
-        bookAsyncTask.execute(BOOK_URL);
+        bookAsyncTask.execute(searchUrl);
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        headerSubView = findViewById(R.id.headerSubVie);
+        searchField = findViewById(R.id.searchFiel);
+        searchQuery = searchField.getText().toString();
+        headerSubView.setText(searchQuery);
+        searchField.setText(searchQuery);
+        performTask();
+    }
+
+    private String performQuerySplit(String searchQuery) {
+        String splitted = searchQuery.replace(" ", "+");
+        return splitted;
+    }
+
     private class BookAsyncTask extends AsyncTask<String,Void,List<Book>>{
 
         @Override
