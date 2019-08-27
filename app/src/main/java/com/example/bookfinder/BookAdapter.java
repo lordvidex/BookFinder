@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +29,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         Book currentBook = getItem(position);
         //Set the image URI
         ImageView bookImage = listView.findViewById(R.id.bookImage);
-        bookImage.setImageURI(currentBook.getmBookImage());
-
+        Picasso.with(getContext()).load(currentBook.getmBookImage()).into(bookImage);
         //Set the book Title
         TextView bookTitle = listView.findViewById(R.id.book_title);
         bookTitle.setText(currentBook.getmBookTitle());
