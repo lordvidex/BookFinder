@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".MainActivity">
+
+    <View
+        android:id="@+id/blur_book"
+        android:layout_width="match_parent"
+        android:layout_height="222dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/bg" />
+
+
+    <View
+        android:id="@+id/google_bar"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_below="@id/blur_book"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/google_bar" />
+
+    <View
+        android:id="@+id/greenSearchField"
+        android:layout_width="match_parent"
+        android:layout_height="132dp"
+        android:layout_below="@id/google_bar"
+        android:background="@drawable/green_blur_rect" />
+
+<RelativeLayout
+    android:id="@+id/compoundSearchView"
+    android:background="@android:drawable/dialog_holo_light_frame"
+    android:layout_width="wrap_content"
+    android:layout_alignTop="@id/greenSearchField"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="32dp"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/searchField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/search_bar"
+        android:gravity="center_vertical"
+        android:hint="Search"
+        android:paddingEnd="50dp"
+        android:inputType="text"
+        android:paddingStart="16dp"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_searchBook"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/searchField"
+        android:layout_alignEnd="@id/searchField"
+        android:background="@drawable/search_button" />
+</RelativeLayout>
+
+    <View
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="155dp"
+        android:background="@mipmap/book_lister_icon" />
+
+    <TextView
+        android:drawableStart="@drawable/ic_info_black_24dp"
+        android:layout_alignStart="@id/compoundSearchView"
+        android:layout_below="@id/greenSearchField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_gravity="center_vertical"
+        android:textSize="10sp"
+        android:gravity="center_vertical"
+        android:text=" Search for any google books by typing a keyword in the provided space"/>
+</RelativeLayout>
