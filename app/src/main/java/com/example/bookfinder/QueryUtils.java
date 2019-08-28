@@ -46,34 +46,38 @@ public final class QueryUtils {
         try {
             JSONObject rootObject = new JSONObject(jsonFile);
             JSONArray items = rootObject.optJSONArray("items");
-            for (int i = 0; i < items.length(); i++) {
-                JSONObject eachItem = items.getJSONObject(i);
-                JSONObject volumeInfo = eachItem.getJSONObject("volumeInfo");
+            if (items != null) {
+                for (int i = 0; i < items.length(); i++) {
+                    JSONObject eachItem = items.getJSONObject(i);
+                    JSONObject volumeInfo = eachItem.getJSONObject("volumeInfo");
 
-                /**
-                 * @var: bookTitle
-                 * get the Book title
-                 */
-                String bookTitle = volumeInfo.getString("title");
+                    /**
+                     * @var: bookTitle
+                     * get the Book title
+                     */
+                    String bookTitle = volumeInfo.getString("title");
 
-                //get the book Authors
-                JSONArray listOfAuthors = volumeInfo.getJSONArray("authors");
-                String Author = listOfAuthors.getString(0);
+                    //get the book Authors
+                    JSONArray listOfAuthors = volumeInfo.getJSONArray("authors");
+                    String Author = listOfAuthors.getString(0);
 
-            //Get the User Image URI
+                //Get the User Image URI
 
-                try {
-                    JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
-                    String imageUriString = imageLinks.getString("thumbnail");
-                    imageUri = Uri.parse(imageUriString);
-                }catch(JSONException e){
-                    Log.i("ImageIssue","Default Image Added");
-                    imageUri = Uri.parse("https://images.app.goo.gl/LecnMWKP67Z72AaUA");
-                }
+                    try {
+                        JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                        String imageUriString = imageLinks.getString("thumbnail");
+                        imageUri = Uri.parse(imageUriString);
+                    }catch(JSONException e){
+                        Log.i("ImageIssue","Default Image Added");
+                        imageUri = Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO16IDz68_ChB0bL0KVMaqHOtB_ts835Io5cAWd40ZKS2QRL_w");
+                    }
 
-            books.add(i, new Book(bookTitle, Author,imageUri));
+                books.add(i, new Book(bookTitle, Author,imageUri));
 
-        }
+            }
+            }else{
+                return null;
+            }
             Log.i("Evans","Books added!!");
             return books;
 

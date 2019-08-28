@@ -1,6 +1,5 @@
 package com.example.bookfinder;
 
-import android.media.Image;
 import android.net.Uri;
 
 public class Book {

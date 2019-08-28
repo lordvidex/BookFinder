@@ -21,16 +21,16 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginEnd="11dp"
-        android:src="@mipmap/book_lister_icon"/>
+        android:src="@mipmap/book_lister_icon"
+        android:contentDescription="@string/image_icon" />
     <TextView
         android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="32sp"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorAccent"
         android:textStyle="bold"
-        android:text="@string/app_name"
-        />
+        android:text="@string/app_name" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/result_pop"
@@ -43,7 +43,7 @@
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Showing result for "/>
+        android:text="@string/showing_result_for"/>
     <TextView
         android:id="@+id/headerSubVie"
         android:textStyle="italic"
@@ -87,13 +87,26 @@
     </RelativeLayout>
     <ListView
         android:id="@+id/listView"
-        android:layout_marginTop="8dp"
         android:dividerHeight="9dp"
+        android:divider="@null"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:scrollbars="none"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/compoundSearchVie"/>
-
+    <TextView
+        android:id="@+id/emptyTextView"
+        android:layout_width="wrap_content"
+        android:textColor="@color/buttonColor"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

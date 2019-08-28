@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Book Finder</string>
     <string name="search">Search</string>
+    <string name="no_network">No Internet Access..</string>
+    <string name="no_book">No Book Found!</string>
+    <string name="showing_result_for">Showing result for </string>
+    <string name="image_icon">Image Icon</string>
 </resources>
