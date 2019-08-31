@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
+import android.icu.lang.UCharacter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -33,12 +36,13 @@ public class BookResult extends AppCompatActivity implements LoaderManager.Loade
     LoaderManager loaderManager = getLoaderManager();
     ConnectivityManager cm;
     NetworkInfo networkInfo;
+    ListView myListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_result);
         //listView
-        ListView myListView = findViewById(R.id.listView);
+         myListView = findViewById(R.id.listView);
         mEmptyStateTextView = findViewById(R.id.emptyTextView);
         myListView.setEmptyView(mEmptyStateTextView);
         //ProgressBar
@@ -84,6 +88,15 @@ public class BookResult extends AppCompatActivity implements LoaderManager.Loade
         //Set adapter and listViews
         bookAdapter = new BookAdapter(this, new ArrayList<Book>());
         myListView.setAdapter(bookAdapter);
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Book clickedBook = bookAdapter.getItem(i);
+                Uri bookUriValue = Uri.parse(clickedBook.getmBookLink());
+                Intent openBook = new Intent(Intent.ACTION_VIEW,bookUriValue);
+                startActivity(openBook);
+            }
+        });
     }
 
     private void performTask() {
@@ -121,7 +134,6 @@ public class BookResult extends AppCompatActivity implements LoaderManager.Loade
     @Override
     public void onLoadFinished(Loader<List<Book>> loader, List<Book> books) {
         progressBar.setVisibility(View.GONE);
-
         //Check for Internet Connection
         cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
          networkInfo = cm.getActiveNetworkInfo();
@@ -131,7 +143,6 @@ public class BookResult extends AppCompatActivity implements LoaderManager.Loade
         }else if(networkInfo.isConnected()){
             mEmptyStateTextView.setText(R.string.no_book);
         }
-
 
         bookAdapter.clear();
         if(books!=null&&!books.isEmpty()){

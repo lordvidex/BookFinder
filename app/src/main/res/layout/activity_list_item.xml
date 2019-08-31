@@ -34,7 +34,8 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimaryText"
-            tools:text="The Book of Magic" />
+            tools:text="The Book of Magic and Unimaginable Sorcery"
+            />
 
         <TextView
             android:id="@+id/book_author"
@@ -42,9 +43,35 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_person_black_24dp"
             android:drawablePadding="8dp"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
             android:layout_gravity="center_vertical"
             android:textColor="@color/colorPrimaryDark"
             tools:text="Mr. James Roberts" />
+        <TextView
+            android:id="@+id/book_pages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_turned_in_black_24dp"
+            android:drawablePadding="8dp"
+            android:textSize="12sp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorPrimaryDark"
+            tools:text="13 pages" />
+        <RatingBar
+            android:id="@+id/ratingsBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:numStars="5" />
+        <TextView
+            android:id="@+id/txt_ratings"
+            tools:text="13 reviews"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"/>
     </LinearLayout>
 
 </LinearLayout>

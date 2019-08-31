@@ -1,10 +1,7 @@
 package com.example.bookfinder;
 
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -51,41 +47,77 @@ public final class QueryUtils {
                     JSONObject eachItem = items.getJSONObject(i);
                     JSONObject volumeInfo = eachItem.getJSONObject("volumeInfo");
 
-                    /**
-                     * @var: bookTitle
+                    /*
+                     * var: bookTitle
                      * get the Book title
                      */
                     String bookTitle = volumeInfo.getString("title");
+                    Log.i("Loop","string"+i);
 
                     //get the book Authors
-                    JSONArray listOfAuthors = volumeInfo.getJSONArray("authors");
-                    String Author = listOfAuthors.getString(0);
+                    String Author;
+                    try {
+                        JSONArray listOfAuthors = volumeInfo.getJSONArray("authors");
+                        Author = listOfAuthors.getString(0);
+                    }catch(JSONException e){
+                        Author = "(No Author Specified!)";
+                    }
+                    Log.i("Loop","Author"+i);
 
-                //Get the User Image URI
+                    //get the Book ratings
+                    double averageRating;
+                    try {
+                        averageRating = volumeInfo.getDouble("averageRating");
+                    }catch(JSONException e){
+                        averageRating = 0.0;
+                    }
+                    Log.i("Loop","Rating"+i);
 
+                    //get the Book URi Link
+                    String infoLink = volumeInfo.getString("infoLink");
+                    Log.i("Loop","infoLink"+i);
+
+                    //get the Book Pages
+                    int bookPages;
+                    try {
+                        bookPages = volumeInfo.getInt("pageCount");
+                    }catch(JSONException e){
+                        bookPages = 0;
+                    }
+                    Log.i("Loop","pages"+i);
+
+                    //get the Book ratingsCount
+                    int ratingsCount;
+                    try {
+                        ratingsCount = volumeInfo.getInt("ratingsCount");
+                    } catch(JSONException e){
+                        ratingsCount = 0;
+                    }
+                    //Get the User Image URI
                     try {
                         JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
                         String imageUriString = imageLinks.getString("thumbnail");
                         imageUri = Uri.parse(imageUriString);
+                        Log.i("Loop","Image"+i);
                     }catch(JSONException e){
                         Log.i("ImageIssue","Default Image Added");
                         imageUri = Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO16IDz68_ChB0bL0KVMaqHOtB_ts835Io5cAWd40ZKS2QRL_w");
                     }
 
-                books.add(i, new Book(bookTitle, Author,imageUri));
+                    books.add(i, new Book(bookTitle, Author,imageUri,infoLink,averageRating,bookPages,ratingsCount));
+                }
 
-            }
+                Log.i(LOG_TAG,"Books have been added..");
+                return books;
             }else{
+                Log.i(LOG_TAG,"No Books found!..");
                 return null;
             }
-            Log.i("Evans","Books added!!");
-            return books;
 
         } catch (JSONException e) {
             Log.e("QueryUtils","Problem parsing the Book JSON file");
         }
-
-        return books;
+        return null;
     }
 
     private static String performNetworkConnection(URL url) throws IOException {

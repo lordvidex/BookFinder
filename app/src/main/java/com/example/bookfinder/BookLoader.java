@@ -3,7 +3,6 @@ package com.example.bookfinder;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.util.Log;
-
 import java.util.List;
 
 public class BookLoader extends AsyncTaskLoader<List<Book>> {
