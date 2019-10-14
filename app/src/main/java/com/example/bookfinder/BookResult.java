@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
@@ -12,10 +13,13 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,7 +49,6 @@ public class BookResult extends AppCompatActivity implements LoaderManager.Loade
         mAdapter =new BookRecyclerAdapter(this,loadedBooks);
         myRecyclerView.setAdapter(mAdapter);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //myListView.setEmptyView(mEmptyStateTextView);
 
         //ProgressBar
         progressBar = findViewById(R.id.progressBar);
@@ -62,7 +65,7 @@ public class BookResult extends AppCompatActivity implements LoaderManager.Loade
         //get URL
         performTask();
 
-        headerSubView.setText(searchQuery);
+        headerSubView.setText(" "+searchQuery);
         searchField.setText(searchQuery);
 
         //Search Button
@@ -139,6 +142,7 @@ public class BookResult extends AppCompatActivity implements LoaderManager.Loade
             for(int i = 0;i<books.size();i++){
                 loadedBooks.addLast(books.get(i));
             }
+            runLayoutAnimation(myRecyclerView);
             myRecyclerView.getAdapter().notifyDataSetChanged();
         }else{
             mEmptyStateTextView.setVisibility(View.VISIBLE);
@@ -148,7 +152,15 @@ public class BookResult extends AppCompatActivity implements LoaderManager.Loade
 
     @Override
     public void onLoaderReset(Loader<List<Book>> loader) {
+        runLayoutAnimation(myRecyclerView);
         myRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
+    private void runLayoutAnimation(final RecyclerView myRecyclerView){
+        final Context context = myRecyclerView.getContext();
+        final LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(context,R.anim.layout_animation_fall_down);
+        myRecyclerView.setLayoutAnimation(controller);
+        myRecyclerView.getAdapter().notifyDataSetChanged();
+        myRecyclerView.scheduleLayoutAnimation();
+    }
 }

@@ -1,7 +1,9 @@
 package com.example.bookfinder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +39,15 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull BookViewHolder holder, final int position) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri newLink = Uri.parse(mBooks.get(position).getmBookLink());
+                Intent newIntent = new Intent(Intent.ACTION_VIEW,newLink);
+                mContext.startActivity(newIntent);
+            }
+        });
         //Book Image
         mPicasso.load(mBooks.get(position).getmBookImage()).into(holder.bookImage);
 
