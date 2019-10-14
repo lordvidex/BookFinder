@@ -1,34 +1,28 @@
 package com.example.bookfinder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
-import android.icu.lang.UCharacter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import org.json.JSONException;
-
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class BookResult extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
     private static String searchUrl;
+    private LinkedList<Book> loadedBooks;
     private String searchQuery;
-    private BookAdapter bookAdapter;
     private ProgressBar progressBar;
     TextView headerSubView;
     TextView mEmptyStateTextView;
@@ -36,15 +30,23 @@ public class BookResult extends AppCompatActivity implements LoaderManager.Loade
     LoaderManager loaderManager = getLoaderManager();
     ConnectivityManager cm;
     NetworkInfo networkInfo;
-    ListView myListView;
+    RecyclerView myRecyclerView;
+    BookRecyclerAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_result);
-        //listView
-         myListView = findViewById(R.id.listView);
-        mEmptyStateTextView = findViewById(R.id.emptyTextView);
-        myListView.setEmptyView(mEmptyStateTextView);
+        loadedBooks = new LinkedList<>();
+        //recyclerView
+         myRecyclerView = findViewById(R.id.recyclerView);
+         myRecyclerView.setVisibility(View.VISIBLE);
+         mEmptyStateTextView = findViewById(R.id.emptyTextView);
+         mEmptyStateTextView.setVisibility(View.GONE);
+        mAdapter =new BookRecyclerAdapter(this,loadedBooks);
+        myRecyclerView.setAdapter(mAdapter);
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //myListView.setEmptyView(mEmptyStateTextView);
+
         //ProgressBar
         progressBar = findViewById(R.id.progressBar);
 
@@ -85,20 +87,7 @@ public class BookResult extends AppCompatActivity implements LoaderManager.Loade
             progressBar.setVisibility(View.GONE);
             mEmptyStateTextView.setText(R.string.no_network);
         }
-        //Set adapter and listViews
-        bookAdapter = new BookAdapter(this, new ArrayList<Book>());
-        myListView.setAdapter(bookAdapter);
-        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Book clickedBook = bookAdapter.getItem(i);
-                Uri bookUriValue = Uri.parse(clickedBook.getmBookLink());
-                Intent openBook = new Intent(Intent.ACTION_VIEW,bookUriValue);
-                startActivity(openBook);
-            }
-        });
     }
-
     private void performTask() {
         String splittedUrl = performQuerySplit(searchQuery);
         String bookUrlPrefix = "https://www.googleapis.com/books/v1/volumes";
@@ -108,6 +97,8 @@ public class BookResult extends AppCompatActivity implements LoaderManager.Loade
     @Override
     protected void onRestart() {
         super.onRestart();
+        loadedBooks.clear();
+        myRecyclerView.getAdapter().notifyDataSetChanged();
         headerSubView = findViewById(R.id.headerSubVie);
         searchField = findViewById(R.id.searchFiel);
 
@@ -144,15 +135,20 @@ public class BookResult extends AppCompatActivity implements LoaderManager.Loade
             mEmptyStateTextView.setText(R.string.no_book);
         }
 
-        bookAdapter.clear();
         if(books!=null&&!books.isEmpty()){
-            bookAdapter.addAll(books);
+            for(int i = 0;i<books.size();i++){
+                loadedBooks.addLast(books.get(i));
+            }
+            myRecyclerView.getAdapter().notifyDataSetChanged();
+        }else{
+            mEmptyStateTextView.setVisibility(View.VISIBLE);
+            myRecyclerView.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<List<Book>> loader) {
-        bookAdapter.clear();
+        myRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
 }

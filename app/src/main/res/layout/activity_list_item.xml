@@ -4,9 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:elevation="4dp"
+    android:padding="4dp"
+    android:layout_marginBottom="4dp"
     android:background="@drawable/search_bar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:targetApi="lollipop">
     <ImageView
         android:layout_gravity="center_vertical"
@@ -25,17 +27,16 @@
         <TextView
             android:id="@+id/book_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/menu_book"
-            android:maxLines="2"
+            android:layout_height="37dp"
             android:layout_gravity="center_vertical"
-            android:ellipsize="end"
+            android:drawableStart="@drawable/menu_book"
             android:drawablePadding="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/colorPrimaryText"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimaryText"
-            tools:text="The Book of Magic and Unimaginable Sorcery"
-            />
+            tools:text="The Book of Magic and Unimaginable Sorcery" />
 
         <TextView
             android:id="@+id/book_author"

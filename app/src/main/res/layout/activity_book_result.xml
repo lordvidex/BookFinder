@@ -6,51 +6,59 @@
     android:layout_height="match_parent"
     android:background="#e4e4e4"
     tools:context=".BookResult">
-    <View android:layout_height="132dp"
-        android:background="@color/colorPrimary"
-        android:layout_width="match_parent"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="132dp"
+        android:background="@color/colorPrimary" />
+
     <LinearLayout
         android:id="@+id/header"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
-        android:layout_marginTop="18dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <ImageView
-        android:layout_gravity="center_vertical"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="11dp"
-        android:src="@mipmap/book_lister_icon"
-        android:contentDescription="@string/image_icon" />
-    <TextView
-        android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="32sp"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        android:text="@string/app_name" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="11dp"
+            android:contentDescription="@string/image_icon"
+            android:src="@mipmap/book_lister_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/app_name"
+            android:textColor="@color/colorAccent"
+            android:textSize="32sp"
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/result_pop"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/header"
-        android:layout_height="wrap_content">
-    <TextView
-        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/showing_result_for"/>
-    <TextView
-        android:id="@+id/headerSubVie"
-        android:textStyle="italic"
-        android:textColor="@color/buttonColor"
-        tools:text="Aladdin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_below="@id/header"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/showing_result_for"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/headerSubVie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buttonColor"
+            android:textStyle="italic"
+            tools:text="Aladdin" />
     </LinearLayout>
 
     <RelativeLayout
@@ -85,28 +93,33 @@
             android:layout_alignEnd="@id/searchFiel"
             android:background="@drawable/search_button" />
     </RelativeLayout>
-    <ListView
-        android:id="@+id/listView"
-        android:dividerHeight="9dp"
-        android:divider="@null"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:scrollbars="none"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/compoundSearchVie"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/compoundSearchVie">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/emptyTextView"
-        android:layout_width="wrap_content"
-        android:textColor="@color/buttonColor"
         style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        />
+        android:textColor="@color/buttonColor" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 </RelativeLayout>
